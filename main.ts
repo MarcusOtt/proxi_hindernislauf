@@ -18,7 +18,7 @@ function linksdrehung () {
     basic.pause(500)
 }
 input.onButtonPressed(Button.A, function () {
-    if (!(input.buttonIsPressed(Button.B))) {
+    while (!(input.buttonIsPressed(Button.B))) {
         if (Proxi.RBlock(abstand) && Proxi.LBlock(abstand)) {
             if (Proxi.Lese_RBlock() < Proxi.Lese_LBlock()) {
                 rechtsdrehung()
