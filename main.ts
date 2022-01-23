@@ -1,49 +1,25 @@
-function linksdrehung () {
-    basic.showLeds(`
-        . # . # .
-        . . . . .
-        . . # . .
-        . # . # .
-        . . # . .
-        `)
-    basic.pause(100)
-    basic.showLeds(`
-        . . . . .
-        . . # . #
-        . . . . .
-        # . . . #
-        . # # # .
-        `)
-    Proxi.linksdrehung()
-    basic.pause(500)
-}
 input.onButtonPressed(Button.A, function () {
     while (!(input.buttonIsPressed(Button.B))) {
         if (Proxi.RBlock(abstand) && Proxi.LBlock(abstand)) {
             if (Proxi.Lese_RBlock() < Proxi.Lese_LBlock()) {
-                rechtsdrehung()
+                drehung("rechts")
             } else {
-                linksdrehung()
+                drehung("links")
             }
         } else if (Proxi.RBlock(abstand)) {
-            rechtsdrehung()
+            drehung("rechts")
         } else if (Proxi.LBlock(abstand)) {
-            linksdrehung()
+            drehung("links")
         } else {
             Proxi.vorwärts()
             basic.showIcon(IconNames.Happy)
         }
-        basic.pause(100)
-        if (Math.randomBoolean()) {
-            linksOderRechts = 1
-        } else {
-            linksOderRechts = 0
-        }
         Proxi.drehungsstopp()
         Proxi.stehenbleiben()
+        basic.pause(100)
     }
 })
-function rechtsdrehung () {
+function drehung (Richtung: string) {
     basic.showLeds(`
         . # . # .
         . . . . .
@@ -51,18 +27,31 @@ function rechtsdrehung () {
         . # . # .
         . . # . .
         `)
+    soundExpression.slide.playUntilDone()
     basic.pause(100)
-    basic.showLeds(`
-        . . . . .
-        # . # . .
-        . . . . .
-        # . . . #
-        . # # # .
-        `)
-    Proxi.rechtsdrehung()
+    if (Richtung == "rechts") {
+        basic.showLeds(`
+            . . . . .
+            # . # . .
+            . . . . .
+            # . . . #
+            . # # # .
+            `)
+        Proxi.rechtsdrehung()
+    } else if (Richtung == "links") {
+        basic.showLeds(`
+            . . . . .
+            . . # . #
+            . . . . .
+            # . . . #
+            . # # # .
+            `)
+        Proxi.linksdrehung()
+    } else {
+    	
+    }
     basic.pause(500)
 }
-let linksOderRechts = 0
 let abstand = 0
 basic.showIcon(IconNames.Happy)
 abstand = 50
